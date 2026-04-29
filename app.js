@@ -428,21 +428,27 @@ async function sendMessage() {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 
   try {
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDvafoATKADALSOevVkybsngG6qXRS1tPo", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: chatHistory,
-      }),
-    });
-
-    const data = await response.json();
-    document.getElementById(loadingId)?.remove();
-
-    const replyText = data?.content?.[0]?.text || "Sorry, I couldn't connect right now. Please try again.";
+    const response = await fetch(
+  "https://models.inference.ai.azure.com/chat/completions",
+  {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": "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"
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        ...chatHistory
+      ],
+      max_tokens: 1000,
+    }),
+  }
+);
+const data = await response.json();
+document.getElementById(loadingId)?.remove();
+const replyText = data?.choices?.[0]?.message?.content || "Sorry, I couldn't connect right now.";
     chatHistory.push({ role: "assistant", content: replyText });
     addChatMsg("assistant", replyText);
   } catch (err) {
