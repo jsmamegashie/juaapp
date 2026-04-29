@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jua — Know Yourself</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ── NAV ───────────────────────────────────────────── -->
+<nav class="nav" id="nav">
+  <div class="nav-brand">
+    <span class="nav-logo">✦</span>
+    <span class="nav-name">Jua</span>
+  </div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-page="home">Home</button>
+    <button class="nav-tab" data-page="goals">Goals</button>
+    <button class="nav-tab" data-page="habits">Habits</button>
+    <button class="nav-tab" data-page="journal">Journal</button>
+    <button class="nav-tab" data-page="mood">Mood</button>
+    <button class="nav-tab" data-page="companion">AI Companion</button>
+  </div>
+</nav>
+
+<!-- ── PAGES ─────────────────────────────────────────── -->
+<main class="main" id="main">
+
+  <!-- HOME -->
+  <section class="page active" id="page-home">
+    <div class="home-header">
+      <div>
+        <p class="home-greeting" id="greeting">Good morning</p>
+        <h1 class="home-title">Welcome back</h1>
+      </div>
+      <div class="home-date" id="homeDate"></div>
+    </div>
+
+    <div class="home-quote-card" id="quoteCard">
+      <span class="quote-icon">✦</span>
+      <p class="quote-text" id="quoteText">Loading your daily wisdom…</p>
+    </div>
+
+    <div class="home-grid">
+      <div class="widget widget--mood" id="moodWidget">
+        <p class="widget-label">Today's Mood</p>
+        <div class="mood-row" id="moodQuickRow">
+          <button class="mood-btn" data-mood="😌" data-label="Calm">😌</button>
+          <button class="mood-btn" data-mood="😊" data-label="Happy">😊</button>
+          <button class="mood-btn" data-mood="😤" data-label="Stressed">😤</button>
+          <button class="mood-btn" data-mood="😔" data-label="Low">😔</button>
+          <button class="mood-btn" data-mood="🔥" data-label="Motivated">🔥</button>
+        </div>
+        <p class="widget-sub" id="todayMoodLabel">How are you feeling?</p>
+      </div>
+
+      <div class="widget widget--habits">
+        <p class="widget-label">Today's Habits</p>
+        <div id="homeHabitList" class="home-habit-list"></div>
+        <button class="widget-link" onclick="showPage('habits')">View all →</button>
+      </div>
+
+      <div class="widget widget--goals">
+        <p class="widget-label">Active Goal</p>
+        <div id="homeGoalPreview">
+          <p class="empty-state">No goals yet.<br>Add one in Goals →</p>
+        </div>
+        <button class="widget-link" onclick="showPage('goals')">View all →</button>
+      </div>
+
+      <div class="widget widget--journal">
+        <p class="widget-label">Journal Streak</p>
+        <div class="streak-display">
+          <span class="streak-num" id="streakNum">0</span>
+          <span class="streak-label">days</span>
+        </div>
+        <button class="widget-link" onclick="showPage('journal')">Write today →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOALS -->
+  <section class="page" id="page-goals">
+    <div class="page-header">
+      <h2 class="page-title">My Goals</h2>
+      <button class="btn-primary" id="addGoalBtn">+ Add Goal</button>
+    </div>
+
+    <div class="goal-form card hidden" id="goalForm">
+      <h3 class="form-title">New Goal</h3>
+      <input class="input" id="goalTitle" placeholder="What do you want to achieve?" />
+      <select class="input" id="goalTimeframe">
+        <option value="yearly">Yearly Goal</option>
+        <option value="monthly">Monthly Goal</option>
+        <option value="weekly">Weekly Goal</option>
+      </select>
+      <textarea class="input" id="goalDesc" placeholder="Why does this matter to you?" rows="3"></textarea>
+      <div class="form-actions">
+        <button class="btn-secondary" id="cancelGoal">Cancel</button>
+        <button class="btn-primary" id="saveGoal">Save Goal</button>
+      </div>
+    </div>
+
+    <div id="goalsList" class="goals-list"></div>
+  </section>
+
+  <!-- HABITS -->
+  <section class="page" id="page-habits">
+    <div class="page-header">
+      <h2 class="page-title">Daily Habits</h2>
+      <button class="btn-primary" id="addHabitBtn">+ Add Habit</button>
+    </div>
+
+    <div class="habit-form card hidden" id="habitForm">
+      <h3 class="form-title">New Habit</h3>
+      <input class="input" id="habitName" placeholder="Habit name (e.g. Read 20 minutes)" />
+      <select class="input" id="habitCategory">
+        <option value="mind">🧠 Mind</option>
+        <option value="body">💪 Body</option>
+        <option value="spirit">✨ Spirit</option>
+        <option value="work">📚 Work</option>
+        <option value="social">🤝 Social</option>
+      </select>
+      <div class="form-actions">
+        <button class="btn-secondary" id="cancelHabit">Cancel</button>
+        <button class="btn-primary" id="saveHabit">Add Habit</button>
+      </div>
+    </div>
+
+    <div class="streak-banner" id="streakBanner">
+      <span id="streakBannerText">Start your streak today!</span>
+    </div>
+
+    <div id="habitsList" class="habits-list"></div>
+  </section>
+
+  <!-- JOURNAL -->
+  <section class="page" id="page-journal">
+    <div class="page-header">
+      <h2 class="page-title">Journal</h2>
+      <button class="btn-primary" id="newEntryBtn">+ New Entry</button>
+    </div>
+
+    <div class="journal-write card" id="journalWriteArea">
+      <div class="journal-prompt-bar">
+        <span class="prompt-label">Today's prompt:</span>
+        <span class="prompt-text" id="journalPrompt">What is one thing that challenged you today, and what did it teach you?</span>
+        <button class="btn-ghost" id="newPromptBtn">↻ New prompt</button>
+      </div>
+      <textarea class="journal-textarea" id="journalText" placeholder="Start writing… this is your safe space."></textarea>
+      <div class="journal-actions">
+        <span class="char-count" id="charCount">0 words</span>
+        <button class="btn-primary" id="saveEntry">Save Entry</button>
+      </div>
+    </div>
+
+    <div id="entriesList" class="entries-list"></div>
+  </section>
+
+  <!-- MOOD -->
+  <section class="page" id="page-mood">
+    <div class="page-header">
+      <h2 class="page-title">Mood Tracker</h2>
+    </div>
+
+    <div class="mood-checkin card">
+      <p class="checkin-label">How are you feeling right now?</p>
+      <div class="mood-grid" id="moodGrid">
+        <button class="mood-option" data-mood="😊" data-label="Happy">😊<span>Happy</span></button>
+        <button class="mood-option" data-mood="😌" data-label="Calm">😌<span>Calm</span></button>
+        <button class="mood-option" data-mood="🔥" data-label="Motivated">🔥<span>Motivated</span></button>
+        <button class="mood-option" data-mood="😤" data-label="Stressed">😤<span>Stressed</span></button>
+        <button class="mood-option" data-mood="😔" data-label="Low">😔<span>Low</span></button>
+        <button class="mood-option" data-mood="😴" data-label="Tired">😴<span>Tired</span></button>
+        <button class="mood-option" data-mood="🤔" data-label="Uncertain">🤔<span>Uncertain</span></button>
+        <button class="mood-option" data-mood="💪" data-label="Strong">💪<span>Strong</span></button>
+      </div>
+      <button class="btn-primary" id="logMoodBtn">Log Mood</button>
+    </div>
+
+    <div class="mood-history card">
+      <h3 class="section-label">Recent Moods</h3>
+      <div id="moodHistory" class="mood-timeline"></div>
+    </div>
+  </section>
+
+  <!-- AI COMPANION -->
+  <section class="page" id="page-companion">
+    <div class="page-header">
+      <h2 class="page-title">AI Companion</h2>
+      <span class="badge">Powered by Claude</span>
+    </div>
+    <p class="companion-intro">Your supportive guide for reflection, encouragement, and clarity. Ask anything about your growth journey.</p>
+
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-msg assistant">
+        <span class="msg-avatar">✦</span>
+        <div class="msg-bubble">
+          <p>Hello! I'm your Jua companion. I'm here to support your growth journey — not to tell you what to do, but to help you think more clearly and reflect deeply.</p>
+          <p style="margin-top:8px">What's on your mind today?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="chatInput" placeholder="Ask me anything about your goals, habits, or how you're feeling…" rows="2"></textarea>
+      <button class="btn-send" id="sendBtn">Send</button>
+    </div>
+    <p class="chat-note">Note: Responses are AI-generated. Always trust your own judgment.</p>
+  </section>
+
+</main>
+
+<!-- ── BOTTOM NAV (mobile) ────────────────────────────── -->
+<nav class="bottom-nav">
+  <button class="bnav-btn active" data-page="home">🏠<span>Home</span></button>
+  <button class="bnav-btn" data-page="goals">🎯<span>Goals</span></button>
+  <button class="bnav-btn" data-page="habits">✅<span>Habits</span></button>
+  <button class="bnav-btn" data-page="journal">✍️<span>Journal</span></button>
+  <button class="bnav-btn" data-page="mood">💙<span>Mood</span></button>
+  <button class="bnav-btn" data-page="companion">🤖<span>Jua AI</span></button>
+</nav>
+
+<!-- ── TOAST ──────────────────────────────────────────── -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
