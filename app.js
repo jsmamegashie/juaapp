@@ -428,7 +428,7 @@ async function sendMessage() {
   chatWindow.scrollTop = chatWindow.scrollHeight;
 
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDvafoATKADALSOevVkybsngG6qXRS1tPo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
